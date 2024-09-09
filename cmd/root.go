@@ -64,6 +64,9 @@ func showFiles(dir string) {
 		}
 	}
 
+	// Add the option to exit the file manager
+	fileNames = append(fileNames, "Exit")
+
 	// Define the template for the prompt
 	template := &promptui.SelectTemplates{
 		Label:    "{{ . }}?",
@@ -89,7 +92,11 @@ func showFiles(dir string) {
 	}
 
 	// Handle the selected option
-	if result == ".." {
+	if result == "Exit" {
+		// Exit the application
+		fmt.Println("Exiting the file manager.")
+		os.Exit(0)
+	} else if result == ".." {
 		// Navigate up one directory
 		parentDir := filepath.Dir(dir)
 		showFiles(parentDir)
@@ -119,6 +126,7 @@ func showFiles(dir string) {
 		}
 	}
 }
+
 
 func openFile(filePath string) error {
 	// Get the OS type
