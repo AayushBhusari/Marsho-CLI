@@ -1,6 +1,6 @@
 # Marsho CLI File Manager
 
-**Marsho** is a fast and reliable Command Line Interface (CLI) file manager built with Go. It leverages the Cobra and PromptUI libraries to provide an interactive and efficient file browsing experience. Whether you're managing files on Windows, macOS, or Linux, Marsho offers a seamless way to navigate directories, view file details, and open files directly from the terminal.
+**Marsho** is a fast and reliable Command Line Interface (CLI) file manager built with Go. It leverages the Cobra and PromptUI libraries to provide an interactive and efficient file browsing experience. Marsho offers a seamless way to navigate directories, view file details, and open files directly from the terminal.
 
 ## Features
 
