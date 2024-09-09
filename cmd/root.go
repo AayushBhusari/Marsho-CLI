@@ -3,7 +3,9 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"runtime"
 	"time"
 
 	"github.com/manifoldco/promptui"
@@ -79,7 +81,7 @@ func showFiles(dir string) {
 	}
 
 	// Run the prompt and capture the selected index and value
-	index, result, err := prompt.Run()
+	_, result, err := prompt.Run()
 
 	if err != nil {
 		fmt.Printf("Prompt failed: %v\n", err)
@@ -105,9 +107,32 @@ func showFiles(dir string) {
 			showFiles(selectedPath)
 		} else {
 			// Display file details
-			fmt.Printf("You selected file: %s with index %d\n", fileInfo.Name(),index)
+			fmt.Printf("You selected file: %s\n", fileInfo.Name())
 			fmt.Printf("File size: %d bytes\n", fileInfo.Size())
 			fmt.Printf("Modification Time: %s\n", fileInfo.ModTime().Format(time.DateTime))
+
+			// Open the file based on the OS
+			err := openFile(selectedPath)
+			if err != nil {
+				fmt.Printf("Error opening file: %v\n", err)
+			}
 		}
+	}
+}
+
+func openFile(filePath string) error {
+	// Get the OS type
+	switch runtime.GOOS {
+	case "linux":
+		// Linux command to open a file
+		return exec.Command("xdg-open", filePath).Start()
+	case "windows":
+		// Windows command to open a file
+		return exec.Command("rundll32", "url.dll,FileProtocolHandler", filePath).Start()
+	case "darwin":
+		// macOS command to open a file
+		return exec.Command("open", filePath).Start()
+	default:
+		return fmt.Errorf("unsupported platform")
 	}
 }
